@@ -37,14 +37,23 @@ class CreateForm extends React.Component {
     Router.pushRoute('/');
   };
 
-  render = () => (
-    <Form onSubmit={this.handleSubmit}>
-      <h1>Add new post</h1>
-      <input placeholder="title" name="title" />
-      <input placeholder="url" name="url" />
-      <SubmitButton type="submit">Submit</SubmitButton>
-    </Form>
-  );
+  render() {
+    console.log('ควย');
+    console.log(0.1 + 0.2 === 0.30000000000000004);
+    const a = parseFloat(0.1);
+    const b = parseFloat(0.2);
+    const c = parseFloat(0.3);
+    console.log(a + b === c);
+    console.log(typeof a);
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <h1>Add new post</h1>
+        <input placeholder="title" name="title" />
+        <input placeholder="url" name="url" />
+        <SubmitButton type="submit">Submit</SubmitButton>
+      </Form>
+    );
+  }
 }
 
 export default connect(CreateForm);

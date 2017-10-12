@@ -2,6 +2,7 @@
 
 /* eslint-disable import/no-unresolved */
 
+/* eslint-disable */
 const shell = require('shelljs');
 const clear = require('cli-clear');
 const exec = require('child_process').exec;

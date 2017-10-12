@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-
+/* eslint-disable */
 export default () => {};
 
 export function dump(obj) {

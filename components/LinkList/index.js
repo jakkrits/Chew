@@ -1,3 +1,4 @@
+/* eslint-disable */
 import PropTypes from 'prop-types';
 import { Link } from '../../routes';
 import { A, LogOutButton } from './styles';
