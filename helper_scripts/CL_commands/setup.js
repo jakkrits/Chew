@@ -5,14 +5,54 @@
 /* eslint-disable */
 const shell = require('shelljs');
 const clear = require('cli-clear');
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const helper = require('./__helpers');
 
+const isCleanSetup = process.env.CLEANSETUP || false;
+const projectName = path.basename(path.resolve(helper.config.appDir)) || 'RAN';
+
 clear();
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
+
+function cleanSetup(callback) {
+  if (!isCleanSetup) return callback();
+
+  const comps = shell
+    .find(helper.config.componentsDir)
+    .filter(
+      (file, index) =>
+        index !== 0 &&
+        !file.toLowerCase().includes('appicons') &&
+        !file.toLowerCase().includes('authfields') &&
+        !file.toLowerCase().includes('app.js') &&
+        !file.toLowerCase().includes('theme.js')
+    );
+  shell.rm('-rf', comps);
+
+  const pages = shell
+    .find(helper.config.pagesDir)
+    .filter(
+      (file, index) =>
+        index !== 0 && !file.toLowerCase().includes('_document.js')
+    );
+  shell.rm('-rf', pages);
+
+  helper.createPageFromTemplate('index', () => {});
+  helper.createContainerFromTemplate('Default', () => {});
+  helper.clearRoutes(() => {
+    callback();
+  });
+}
+
+function updateReadme(callback) {
+  shell.rm('-rf', shell.find(`${helper.config.appDir}README.md`));
+  helper.updateReadme(projectName, () => {
+    callback();
+  });
+}
 
 /**
  * Initializes git again
@@ -42,12 +82,16 @@ function installDepsCallback(error) {
   deleteFileInCurrentDir('setup.js', () => {
     process.stdout.write('Initialising new repository...');
     initGit(() => {
-      clear();
-      process.stdout.write('\n');
-      process.stdout.write('\nRAN! is ready to go!');
-      process.stdout.write('\n');
-      process.stdout.write('\n');
-      process.exit(0);
+      cleanSetup(() => {
+        updateReadme(() => {
+          clear();
+          process.stdout.write('\n');
+          process.stdout.write('\nRAN! is ready to go!');
+          process.stdout.write('\n');
+          process.stdout.write('\n');
+          process.exit(0);
+        });
+      });
     });
   });
 }

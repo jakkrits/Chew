@@ -1,10 +1,10 @@
 /* eslint-disable */
 import PropTypes from 'prop-types';
 import { Link } from '../../routes';
-import { A, LogOutButton } from './styles';
+import { A, LogOutButton, Nav, Externals } from './styles';
 
 const LinkList = ({ pathname, authenticated, logout }) => (
-  <nav>
+  <Nav>
     <Link prefetch href="/" passHref>
       <A active={pathname === '/'}>Main Page</A>
     </Link>
@@ -31,14 +31,15 @@ const LinkList = ({ pathname, authenticated, logout }) => (
         LogOut
       </LogOutButton>
     )}
-    <A
-      href="https://github.com/Sly777/ran"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      RAN! @ Github
-    </A>
-  </nav>
+    <Externals>
+      <A href="https://www.rantoolkit.com" target="_blank">
+        RAN! Documentation
+      </A>
+      <A href="https://github.com/Sly777/ran" target="_blank">
+        RAN! @ Github
+      </A>
+    </Externals>
+  </Nav>
 );
 
 LinkList.propTypes = {
